@@ -1,0 +1,102 @@
+\documentclass{article}
+%
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{hyperref}
+%
+\newtheorem{theorem}{Theorem}
+%
+\title{An Interest Observation about Clifford Group}
+\author{Guangliang He
+  \thanks{\href{mailto:guangliang.he@gmail.com}
+    {Email: guangliang.he@gmail.com}}}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Definitions}
+The Pauli group $\mathcal P_n$ on $n$ qubits is defined as
+\begin{equation}
+  \mathcal P_n = \{e^{i\theta\pi/2}\sigma^{(1)}\otimes\cdots\otimes\sigma^{(n)}
+  \mid \theta\in\{0,1,2,3\}, \sigma^{(k)} \in \{I, X, Y, Z\}\},
+\end{equation}
+where
+\begin{alignat}{3}
+  I &= \begin{bmatrix} 1 & 0 \\ 0 & 1\end{bmatrix}, \\
+  X &= \begin{bmatrix} 0 & 1 \\ 1 & 0\end{bmatrix}, \\
+  X &= \begin{bmatrix} 0 & -i \\ i & 0\end{bmatrix}, \\
+  Z &= \begin{bmatrix} 1 & 0 \\ 0 & 1\end{bmatrix}.
+\end{alignat}
+The group 
+$\mathcal N(\mathcal P_n) = \{U\in U(2^n)\mid U\mathcal P_nU^\dagger
+= \mathcal P_n\}$ is called the normalizer of $\mathcal P_n$.
+Ignoring the global phase, we define the Clifford group as the quotient
+group $\mathcal C_n = \mathcal N(\mathcal P_n)/U(1)$.
+It is known that\cite{Koenig_2014}
+$\mid\mathcal C_n\mid = 2^{n^2+2n}\prod_{j=1}^n(4^j-1)$.
+
+\section{Random sampling Clifford group and density matrix}
+Random sampling operator from the Clifford group is often used in quantum
+information.  If we apply such an operator $U$ to an initial state
+represented by the density matrix $\rho$, the resulting state is
+\begin{equation}
+  \label{eq:rho_prime}
+  \rho' = \frac{1}{\mid\mathcal C_n\mid}\sum_{U\in\mathcal C_n}U\rho U^\dagger.
+\end{equation}
+
+\begin{theorem}
+  Let $\rho$ be the density matrix of a quantum state of $n$ qubits.
+  After applying a randomly drawn unitary operator from the Clifford group
+  $\mathcal C_n$, the density matrix of the resulting state, as shown in
+  Eq. (\ref{eq:rho_prime}), is
+  \begin{equation}
+    \rho' = \frac{I_{2^n}}{2^n}.
+  \end{equation}
+  In other words, regardless the initial state, the resulting state is a
+  maximally mixed state.
+\end{theorem}
+\begin{proof}
+  First of all, because $X^{\otimes n}\in\mathcal C_n$, we have
+  \begin{equation}
+    \sum_{U\in\mathcal C_n} U\rho U^\dagger =
+    \sum_{U\in\mathcal C_n} UX^{\otimes n}\rho X^{\otimes n}U^\dagger.
+  \end{equation}
+  Similarly for $Y^{\otimes n}$ and $Z^{\otimes n}$. This leads to
+  \begin{eqnarray}
+    &   & \sum_{U\in\mathcal C_n} U\rho U^\dagger \nonumber \\
+    & = & \frac14\sum_{U\in\mathcal C_n}\left(U\rho U^\dagger +
+    UX^{\otimes n}\rho X^{\otimes n}U^\dagger +
+    UY^{\otimes n}\rho Y^{\otimes n}U^\dagger +
+    UZ^{\otimes n}\rho Z^{\otimes n}U^\dagger\right)
+    \nonumber \\
+    & = & \frac14\sum_{U\in\mathcal C_n}U\left(
+    \rho + X^{\otimes n}\rho X^{\otimes n} + Y^{\otimes n}\rho Y^{\otimes n}
+    Z^{\otimes n}\rho Z^{\otimes n} \right)U^\dagger.
+  \end{eqnarray}
+  It is straight forward to generalize Eq.~(8.101) of 
+  Nielsen and Chuang\cite{Nielsen_Chuang_2010} into $n$ qubit case.
+  That is, for any $n$ qubit density matrix $\rho$,
+  \begin{equation}
+    \frac14\left(\rho + X^{\otimes n}\rho X^{\otimes n}
+    + Y^{\otimes n}\rho Y^{\otimes n} + Z^{\otimes n}\rho Z^{\otimes n}\right)
+    = \frac{I_{2^n}}{2^n}.
+  \end{equation}
+  Thus
+  \begin{equation}
+    \sum_{U\in\mathcal C_n}U\rho U^\dagger
+    = \sum_{U\in\mathcal C_n}\frac{UI_{2^n}U^\dagger}{2^n}
+    = \frac{\mid\mathcal C_n\mid I_{2^n}}{2^n}.
+  \end{equation}
+  Substitute into Eq.~(\ref{eq:rho_prime}), we have the final result
+  \begin{equation}
+    \rho' = \frac{I_{2^n}}{2^n}.
+  \end{equation}
+\end{proof}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{plain}
+\bibliography{../BIBTEX/mybib}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
