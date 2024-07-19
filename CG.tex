@@ -4,6 +4,7 @@
 \usepackage{amsthm}
 \usepackage{hyperref}
 %
+\DeclareMathOperator{\Tr}{Tr}
 \newtheorem{theorem}{Theorem}
 %
 \title{An Interest Observation about Clifford Group}
@@ -38,8 +39,10 @@ $\mid\mathcal C_n\mid = 2^{n^2+2n}\prod_{j=1}^n(4^j-1)$.
 
 \section{Random sampling Clifford group and density matrix}
 Random sampling operator from the Clifford group is often used in quantum
-information.  If we apply such an operator $U$ to an initial state
-represented by the density matrix $\rho$, the resulting state is
+information.  We know that the result of apply an operator $U$ to an
+initial state represented by the density matrix $\rho$, is
+$U\rho U^\dagger$.  If we randomly draw an operator from the uniformly
+distributed set $\mathcal C_n$, the resulting state is
 \begin{equation}
   \label{eq:rho_prime}
   \rho' = \frac{1}{\mid\mathcal C_n\mid}\sum_{U\in\mathcal C_n}U\rho U^\dagger.
@@ -57,43 +60,64 @@ represented by the density matrix $\rho$, the resulting state is
   maximally mixed state.
 \end{theorem}
 \begin{proof}
-  First of all, because $X^{\otimes n}\in\mathcal C_n$, we have
+  Let $\Sigma = \{I, X, Y, Z\}$,
+  for any $\sigma^{(1)}, \ldots, \sigma^{(n)}\in\Sigma$, it is easy to
+  see that  $\sigma^{(1)}\otimes\cdots\otimes\sigma^{(n)}\in \mathcal C_n$.
+  Thus we have
   \begin{equation}
     \sum_{U\in\mathcal C_n} U\rho U^\dagger =
-    \sum_{U\in\mathcal C_n} UX^{\otimes n}\rho X^{\otimes n}U^\dagger.
+    \frac{1}{4^n}\sum_{\sigma^{(1)}\in\Sigma}\cdots\sum_{\sigma^{(n)}\in\Sigma}\sum_{U\in\mathcal C_n}
+    U\sigma^{(1)}\otimes\cdots\sigma^{(n)}\rho\sigma^{(1)}\otimes\cdots\sigma^{(n)}U^\dagger.
   \end{equation}
-  Similarly for $Y^{\otimes n}$ and $Z^{\otimes n}$. This leads to
-  \begin{eqnarray}
-    &   & \sum_{U\in\mathcal C_n} U\rho U^\dagger \nonumber \\
-    & = & \frac14\sum_{U\in\mathcal C_n}\left(U\rho U^\dagger +
-    UX^{\otimes n}\rho X^{\otimes n}U^\dagger +
-    UY^{\otimes n}\rho Y^{\otimes n}U^\dagger +
-    UZ^{\otimes n}\rho Z^{\otimes n}U^\dagger\right)
-    \nonumber \\
-    & = & \frac14\sum_{U\in\mathcal C_n}U\left(
-    \rho + X^{\otimes n}\rho X^{\otimes n} + Y^{\otimes n}\rho Y^{\otimes n}
-    Z^{\otimes n}\rho Z^{\otimes n} \right)U^\dagger.
-  \end{eqnarray}
-  It is straight forward to generalize Eq.~(8.101) of 
+  Generalize Eq.~(8.101) of 
   Nielsen and Chuang\cite{Nielsen_Chuang_2010} into $n$ qubit case.
-  That is, for any $n$ qubit density matrix $\rho$,
+  That is, for any $2^n\times2^n$ matrix $M$,
   \begin{equation}
-    \frac14\left(\rho + X^{\otimes n}\rho X^{\otimes n}
-    + Y^{\otimes n}\rho Y^{\otimes n} + Z^{\otimes n}\rho Z^{\otimes n}\right)
-    = \frac{I_{2^n}}{2^n}.
+    \frac{1}{4^n}\sum_{\sigma^{(1)}\in\Sigma}\cdots\sum_{\sigma^{(n)}\in\Sigma}
+    \sigma^{(1)}\otimes\cdots\otimes\sigma^{(n)}M
+    \sum_{\sigma^{(1)}\in\Sigma}\cdots\sum_{\sigma^{(n)}\in\Sigma}
+    \sigma^{(1)}\otimes\cdots\otimes\sigma^{(n)} = \frac{\Tr M}{2^n}I_{2^n}.
+    \label{eq:sum_Sigma}
   \end{equation}
   Thus
   \begin{equation}
     \sum_{U\in\mathcal C_n}U\rho U^\dagger
     = \sum_{U\in\mathcal C_n}\frac{UI_{2^n}U^\dagger}{2^n}
-    = \frac{\mid\mathcal C_n\mid I_{2^n}}{2^n}.
+    = \frac{\mid\mathcal C_n\mid I_{2^n}}{2^n},
   \end{equation}
-  Substitute into Eq.~(\ref{eq:rho_prime}), we have the final result
+  Here we used the fact $\Tr\rho = 1$.  Substitute into Eq.~(\ref{eq:rho_prime}),
+  we have the final result
   \begin{equation}
     \rho' = \frac{I_{2^n}}{2^n}.
   \end{equation}
 \end{proof}
 
+\appendix
+\section{Proof of Eq.~(\ref{eq:sum_Sigma})}
+We will prove Eq.~(\ref{eq:sum_Sigma}) by induction.
+For the case $n=1$, it is equivalent to Eq.~(8.101) of Nielsen and Chuang,
+thus it is correct.
+Assume Eq.~(\ref{eq:sum_Sigma}) is correct for $n = k$, we will prove it
+is correct for $n = k+1$. Let's first consider the case matrix $M$ is
+a tensor product $M = M^{(K)}\otimes M^{(k+1)}$ where $M^{(K)}$ and $M^{(k+1)}$
+are $2^k\times2^k$ and $2\times2$ matrices, respectively. Utilize
+Eq.~(\ref{eq:sum_Sigma}) for $n = k$ for summation of $\sigma^{(1)}$
+to $\sigma^{(k)}$, and again utlize Eq.~(\ref{eq:sum_Sigma}) for $n = 1$
+for summation of $\sigma^{(k+1)}$, we have
+\begin{align}
+  & \frac{1}{4^{k+1}}\sum_{\sigma^{(1)}\in\Sigma}\cdots\sum_{\sigma^{(k+1)}\in\Sigma}
+  \sigma^{(1)}\otimes\cdots\otimes\sigma^{(k+1)} \nonumber\\
+  & \times M\times \sum_{\sigma^{(1)}\in\Sigma}\cdots\sum_{\sigma^{(k+1)}\in\Sigma}
+  \sigma^{(1)}\otimes\cdots\otimes\sigma^{(k+1)} \nonumber\\
+  =& \frac{\Tr M^{(K)}I_{2^k}}{2^k}\otimes\frac{\Tr M^{(k+1)}I_2}{2}
+  \nonumber\\
+  =&\frac{\Tr M}{2^{k+1}}I_{2^{k+1}}.
+\end{align}
+The Eq.~(\ref{eq:sum_Sigma}) holds for $M = M^{(K)}\otimes M^{(k+1)}$.
+Since any $2^{k+1}\times2^{k+1}$ matrix can always be decomposed to a
+sum of such tensor products, thus, it is true for any matrix $M$.
+We conclude the proof for $n = k+1$.  By the principle of induction,
+Eq.~(\ref{eq:sum_Sigma}) holds for any integer $n \ge 1$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{plain}
